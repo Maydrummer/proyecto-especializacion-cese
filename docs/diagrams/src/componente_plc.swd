@@ -1,0 +1,47 @@
+@startuml
+ModbusClientMixin <|-- BaseModbusClient  
+BaseModbusClient <|-- ModbusTcpClient
+
+class ModbusClientMixin {
+    + read_coils()
+    + read_discrete_inputs()
+    + write_coil()
+    + write_coils()
+    + write_register()
+    + write_registers()
+    + read_holding_registers()
+    + read_input_registers()
+    + readwrite_registers()
+    + mask_write_register()
+}
+
+class BaseModbusClient {
+    + framer
+    + connect()
+    + close()
+    + is_socket_open()
+    + send()
+    - _send()
+    + recv()
+    - _recv()
+    + execute()
+    + idle_time()
+    + debug_enabled()
+    + set_debug()
+    + trace()
+    - _dump()
+}
+
+class ModbusTcpClient {
+    + framer : ModbusSocketFramer
+    + host : String = '127.0.0.1'
+    + port : Integ = 502
+    + timeout : Integ = 3
+    + connect()
+    + close()
+    + is_socket_open()
+    - _send()
+    - _recv()
+}
+
+@enduml
