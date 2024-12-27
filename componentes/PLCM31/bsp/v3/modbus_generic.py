@@ -1,15 +1,9 @@
-
 import struct
-
-from dataclasses import dataclass
-
-# import for modbus tcp
-from bsp.common.my_pymodbus.sync import ModbusTcpClient
+from dataclasses import dataclass,field
+from PLCM31.bsp.common.my_pymodbus.sync import ModbusTcpClient
 from pymodbus.transaction import ModbusSocketFramer
+from PLCM31.bsp.common.Config import Config
 
-from bsp.common.Config import Config
-
-from dataclasses import field
 
 
 

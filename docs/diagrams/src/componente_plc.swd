@@ -1,7 +1,13 @@
 @startuml
-ModbusClientMixin <|-- BaseModbusClient  
-BaseModbusClient <|-- ModbusTcpClient
-
+ModbusFramer *-- ModbusSocketFramer
+ModbusClientMixin *-- BaseModbusClient  
+BaseModbusClient *-- ModbusTcpClient
+ModbusTcpClient o-- ReadCoils_01
+ModbusTcpClient o-- ReadDiscreteInputs_02
+ModbusTcpClient o-- WriteSingleCoil_05
+ModbusTcpClient o-- ModbusDeviceBase
+AddressTCP o-- ModbusDeviceBase
+ModbusSocketFramer *-- BaseModbusClient
 class ModbusClientMixin {
     + read_coils()
     + read_discrete_inputs()
@@ -44,4 +50,61 @@ class ModbusTcpClient {
     - _recv()
 }
 
+class ModbusSocketFramer {
+    - _buffer : Bytes
+    - _header : Dict = {'tid': 0, 'pid': 0, 'len': 0, 'uid': 0} 
+    - _hsize : Hex = 0x07
+    + decoder
+    + client 
+    + bool checkFrame()
+    + void advanceFrame()
+    + bool isFrameReady()
+    + addToFrame()
+    + getFrame()
+    + populateResult()
+    + decode_data()
+    + processIncomingPacket()
+    + resetFrame()
+    + getRawFrame()
+    + buildPacket()
+    - _process()
+
+}
+
+class ModbusFramer {
+    - _validate_unit_id()
+    + sendPacket()
+    + recvPacket()
+}
+
+class AddressTCP {
+    + aplicacion: String
+    + ip: String
+    + port: Integ
+    + slave: Integ
+}
+
+class ReadCoils_01 {
+    + reg: Integ
+    + len: Integ
+    + get_value()
+}
+
+class ReadDiscreteInputs_02 {
+    + reg: Integ
+    + len: Integ
+    + get_value()
+}
+
+class WriteSingleCoil_05 {
+    + reg: Integ
+    + len: Integ
+    + get_value()
+}
+
+class ModbusDeviceBase {
+    + address: AddressTCP
+    + status: String
+    + ModbusTcpClient get_client()
+}
 @enduml

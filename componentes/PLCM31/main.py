@@ -5,9 +5,6 @@ from bsp.common.util import asdict
 from bsp.v3.modbus_generic import AddressTCP
 from dispositivos_modbus.M31 import PLC_M31
 import pprint, time, json
-import paho.mqtt.client as paho_mqtt
-# Configuracion MQTT
-broker_address = '10.10.36.50'
 # Configuracion Modbus
 ip_modbus = '192.168.3.7'
 puerto_modbus = 502
